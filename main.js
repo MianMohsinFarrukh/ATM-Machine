@@ -1,11 +1,8 @@
 #!/usr/bin/env node
-
 import inquirer from "inquirer";
 import chalk from "chalk";
-
-let myBalance: number = 10000;
-const myPin: number = 2233;
-
+let myBalance = 10000;
+const myPin = 2233;
 let pinAnswer = await inquirer.prompt([
     {
         name: "pin",
@@ -13,7 +10,6 @@ let pinAnswer = await inquirer.prompt([
         type: "number",
     }
 ]);
-
 if (pinAnswer.pin === myPin) {
     let ansOperation = await inquirer.prompt([
         {
@@ -23,7 +19,6 @@ if (pinAnswer.pin === myPin) {
             choices: ["withdraw", "checkbalance", "fastcash"],
         }
     ]);
-
     if (ansOperation.operation === "withdraw") {
         let ansAmount = await inquirer.prompt([
             {
@@ -32,17 +27,17 @@ if (pinAnswer.pin === myPin) {
                 type: "number",
             }
         ]);
-
         if (myBalance >= ansAmount.Amount) {
             myBalance -= ansAmount.Amount;
             console.log(chalk.green(`Your remaining balance is : ${myBalance}`));
-        } else {
+        }
+        else {
             console.log(chalk.red(`Insufficient funds!`));
         }
-    } else if (ansOperation.operation === "checkbalance") {
+    }
+    else if (ansOperation.operation === "checkbalance") {
         console.log(chalk.green(`Your current balance is : ${myBalance}`));
     }
-
     if (ansOperation.operation === "fastcash") {
         let ansFast = await inquirer.prompt([
             {
@@ -52,9 +47,7 @@ if (pinAnswer.pin === myPin) {
                 choices: ["RS:500", "RS:1000", "RS:2000", "RS:3000", "RS:4000", "RS:5000"],
             }
         ]);
-
-
-        const normal: { [key: string]: number } = {
+        const normal = {
             "RS:500": 500,
             "RS:1000": 1000,
             "RS:2000": 2000,
@@ -62,27 +55,20 @@ if (pinAnswer.pin === myPin) {
             "RS:4000": 4000,
             "RS:5000": 5000
         };
-
         const selectedAmount = normal[ansFast.cash];
-
         if (selectedAmount && myBalance >= selectedAmount) {
             myBalance -= selectedAmount;
             console.log(chalk.green(`Your remaining balance is : ${myBalance}`));
-        } else if (selectedAmount && myBalance < selectedAmount) {
+        }
+        else if (selectedAmount && myBalance < selectedAmount) {
             console.log(chalk.red(`Insufficient funds!`));
-        } else {
+        }
+        else {
             console.log(chalk.red(`Invalid amount selected!`));
         }
     }
 }
-
 else {
-    console.log(chalk.red`Incorrect pin code`);
-};
-
-
-
-
-
-
-
+    console.log(chalk.red `Incorrect pin code`);
+}
+;
